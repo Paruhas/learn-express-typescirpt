@@ -9,7 +9,12 @@ import {
 import { UserDetail } from "./userDetail.model";
 import { Post } from "./post.model";
 
-@Table
+@Table({
+  tableName: "users",
+  modelName: "User",
+  timestamps: true,
+  underscored: true,
+})
 export class User extends Model {
   @Column({
     type: DataType.STRING,
@@ -24,11 +29,18 @@ export class User extends Model {
   })
   email!: string;
 
-  // User HasOne UserDetail
-  @HasOne(() => UserDetail)
+  // Associate
+  @HasOne(() => UserDetail, {
+    sourceKey: "id",
+    foreignKey: "user_id",
+    as: "user_detail",
+  })
   userDetail!: UserDetail;
 
-  // User HasMany Post
-  @HasMany(() => Post)
+  @HasMany(() => Post, {
+    sourceKey: "id",
+    foreignKey: "user_id",
+    as: "posts",
+  })
   posts!: Post[];
 }

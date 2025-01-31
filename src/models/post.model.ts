@@ -8,7 +8,12 @@ import {
 } from "sequelize-typescript";
 import { User } from "./user.model";
 
-@Table
+@Table({
+  tableName: "posts",
+  modelName: "Post",
+  timestamps: true,
+  underscored: true,
+})
 export class Post extends Model {
   @Column({
     type: DataType.STRING,
@@ -22,14 +27,11 @@ export class Post extends Model {
   })
   content!: string;
 
-  // Post BelongsTo User
-  @ForeignKey(() => User)
-  @Column({
-    type: DataType.INTEGER,
-    allowNull: false,
+  // Associate
+  @BelongsTo(() => User, {
+    targetKey: "id",
+    foreignKey: { name: "user_id", allowNull: false },
+    as: "user_detail",
   })
-  userId!: number;
-
-  @BelongsTo(() => User)
-  user!: User;
+  user_id!: number;
 }
