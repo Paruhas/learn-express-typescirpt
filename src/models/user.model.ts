@@ -17,30 +17,38 @@ import { Post } from "./post.model";
 })
 export class User extends Model {
   @Column({
+    type: DataType.UUID, // Use UUID instead of INTEGER
+    primaryKey: true,
+    defaultValue: DataType.UUIDV4, // Automatically generate UUIDs
+    allowNull: false,
+  })
+  declare id: string; // Use `string` for UUID
+
+  @Column({
     type: DataType.STRING,
     allowNull: false,
   })
-  name!: string;
+  declare name: string;
 
   @Column({
     type: DataType.STRING,
     unique: true,
     allowNull: false,
   })
-  email!: string;
+  declare email: string;
 
   // Associate
   @HasOne(() => UserDetail, {
     sourceKey: "id",
-    foreignKey: "user_id",
+    foreignKey: { name: "user_id", allowNull: false },
     as: "user_detail",
   })
-  userDetail!: UserDetail;
+  declare userDetail: UserDetail;
 
   @HasMany(() => Post, {
     sourceKey: "id",
-    foreignKey: "user_id",
+    foreignKey: { name: "user_id", allowNull: false },
     as: "posts",
   })
-  posts!: Post[];
+  declare posts: Post[];
 }
