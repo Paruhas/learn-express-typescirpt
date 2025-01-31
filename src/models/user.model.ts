@@ -1,4 +1,13 @@
-import { Table, Column, Model, DataType } from "sequelize-typescript";
+import {
+  Table,
+  Column,
+  Model,
+  HasOne,
+  HasMany,
+  DataType,
+} from "sequelize-typescript";
+import { UserDetail } from "./userDetail.model";
+import { Post } from "./post.model";
 
 @Table
 export class User extends Model {
@@ -14,4 +23,12 @@ export class User extends Model {
     allowNull: false,
   })
   email!: string;
+
+  // User HasOne UserDetail
+  @HasOne(() => UserDetail)
+  userDetail!: UserDetail;
+
+  // User HasMany Post
+  @HasMany(() => Post)
+  posts!: Post[];
 }

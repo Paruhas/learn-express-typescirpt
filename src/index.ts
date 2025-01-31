@@ -3,7 +3,7 @@ import { connectDatabase } from "./utils/database";
 import { UserService } from "./services/user.service";
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
 app.get("/users", async (req, res) => {
   const service = new UserService();
